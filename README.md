@@ -1,27 +1,5 @@
 # AWS Step Functions — Tutorial Session
 
-## The Problem
-
-You're building a feature: a user places an order. You need to:
-
-1. Validate the order
-2. Charge the customer
-3. Reserve inventory
-4. Notify the warehouse
-5. Send a confirmation email
-
-Each of these calls a different service. What happens when step 3 fails after step 2 already succeeded? How do you retry? How do you track which step ran? How do you handle timeouts?
-
-Without orchestration, you end up writing:
-- Lambda functions calling other Lambda functions
-- DynamoDB tables tracking workflow state manually
-- Custom retry logic scattered across services
-- No visibility into what happened when something breaks
-
-This is the coordination problem. AWS Step Functions is built to solve it.
-
----
-
 ## What is AWS Step Functions?
 
 > AWS Step Functions is a **serverless workflow orchestration service** that lets you coordinate multiple AWS services into a sequence of steps — with built-in error handling, retries, state management, and execution history.
@@ -32,41 +10,6 @@ This is the coordination problem. AWS Step Functions is built to solve it.
 - Visual drag-and-drop editor: **Workflow Studio**
 - Integrates with **220+ AWS services** — Lambda, S3, DynamoDB, SQS, SNS, Glue, SageMaker, Bedrock, ECS, and more
 - Full execution history and visual debugging in the AWS console
-
----
-
-## Where is it Used?
-
-Step Functions shows up wherever a business process has multiple steps, decisions, retries, or hand-offs between services:
-
-| Domain | Example |
-|---|---|
-| E-commerce | Order processing, refund workflows |
-| Media | Video transcoding, image processing pipelines |
-| Finance | Loan approval, fraud detection, payment workflows |
-| ML/Data | Model training pipelines, ETL, data validation |
-| DevOps | CI/CD pipelines, infrastructure automation |
-| Healthcare | Patient onboarding, claims processing |
-| SaaS | Multi-tenant provisioning, scheduled jobs |
-| Security | Incident response automation |
-
----
-
-## Why Not Just Lambda Chains?
-
-The natural alternative is Lambda calling Lambda — but that approach pushes coordination responsibility into your application code. You end up owning retry logic, progress tracking, timeout handling, and failure visibility yourself. Step Functions makes these declarative:
-
-| Problem | Lambda chains | Step Functions |
-|---|---|---|
-| Track workflow progress | Custom DynamoDB table | Built-in execution history |
-| Retry failed steps | Write retry logic manually | Declarative `Retry` config |
-| Branch based on conditions | `if/else` in code + routing | `Choice` state |
-| Run steps in parallel | Async invocations + coordination code | `Parallel` state |
-| Wait for human approval | Custom polling + tokens in DB | `.waitForTaskToken` |
-| Visibility into failures | CloudWatch logs + manual tracing | Visual graph in console |
-| Timeout a stuck step | Custom timers | `TimeoutSeconds` on any state |
-
-**Bottom line:** Step Functions handles control flow, retries, state, and visibility so your code only handles business logic.
 
 ---
 
@@ -179,6 +122,41 @@ SendConfirmationEmail  ← SES: sends order confirmation to customer
 - **NotifyWarehouse** uses `.waitForTaskToken` — execution pauses until the warehouse sends the token back
 - Data flows as JSON — `$.orderId` reads from the current state's input
 - `$$.Task.Token` is injected by Step Functions — it's the callback token for this specific execution
+
+---
+
+## Where is it Used?
+
+Step Functions shows up wherever a business process has multiple steps, decisions, retries, or hand-offs between services:
+
+| Domain | Example |
+|---|---|
+| E-commerce | Order processing, refund workflows |
+| Media | Video transcoding, image processing pipelines |
+| Finance | Loan approval, fraud detection, payment workflows |
+| ML/Data | Model training pipelines, ETL, data validation |
+| DevOps | CI/CD pipelines, infrastructure automation |
+| Healthcare | Patient onboarding, claims processing |
+| SaaS | Multi-tenant provisioning, scheduled jobs |
+| Security | Incident response automation |
+
+---
+
+## Why Not Just Lambda Chains?
+
+The natural alternative is Lambda calling Lambda — but that approach pushes coordination responsibility into your application code. You end up owning retry logic, progress tracking, timeout handling, and failure visibility yourself. Step Functions makes these declarative:
+
+| Problem | Lambda chains | Step Functions |
+|---|---|---|
+| Track workflow progress | Custom DynamoDB table | Built-in execution history |
+| Retry failed steps | Write retry logic manually | Declarative `Retry` config |
+| Branch based on conditions | `if/else` in code + routing | `Choice` state |
+| Run steps in parallel | Async invocations + coordination code | `Parallel` state |
+| Wait for human approval | Custom polling + tokens in DB | `.waitForTaskToken` |
+| Visibility into failures | CloudWatch logs + manual tracing | Visual graph in console |
+| Timeout a stuck step | Custom timers | `TimeoutSeconds` on any state |
+
+**Bottom line:** Step Functions handles control flow, retries, state, and visibility so your code only handles business logic.
 
 ---
 
