@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AWS Step Functions — Tutorial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css" />
+  <style>
+    :root {
+      --theme-color: #FF9900;
+      --sidebar-width: 280px;
+      --base-font-size: 15px;
+      --code-font-size: 13px;
+      --sidebar-background: #1a1a2e;
+      --sidebar-color: #e0e0e0;
+      --sidebar-name-color: #FF9900;
+      --sidebar-nav-link-color: #ccc;
+      --sidebar-nav-link-color--active: #FF9900;
+      --sidebar-nav-link-background-color--active: rgba(255,153,0,0.1);
+      --sidebar-nav-link-border-color--active: #FF9900;
+    }
+    .sidebar-toggle { background: #1a1a2e; }
+    .app-name-link img { height: 32px; margin-bottom: 4px; }
+    table { display: table; width: 100%; }
+    blockquote { border-left: 4px solid #FF9900; background: #fff8ee; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: '⚡ AWS Step Functions',
+      repo: '',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      auto2top: true,
+      search: {
+        placeholder: 'Search...',
+        noData: 'No results.',
+        depth: 3,
+      },
+      copyCode: {
+        buttonText: 'Copy',
+        errorText: 'Error',
+        successText: 'Copied!',
+      },
+      pagination: {
+        previousText: '← Previous',
+        nextText: 'Next →',
+        crossChapter: true,
+      },
+    }
+  </script>
+  <!-- Docsify core -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <!-- Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <!-- Syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+</body>
+</html>
