@@ -784,6 +784,19 @@ aws stepfunctions send-task-success \
   --task-output '{"approved": true}'
 ```
 
+#### Human-in-the-Loop
+
+`.waitForTaskToken` is the standard pattern for any workflow that requires a human decision before proceeding — approval flows, content moderation, exception handling, compliance sign-off.
+
+The typical setup:
+
+1. Step Functions sends the task token to SQS (or SNS, or calls a Lambda that sends an email/Slack message)
+2. A human reviews the request in an internal tool or email link
+3. The tool calls `SendTaskSuccess` (approved) or `SendTaskFailure` (rejected) with the token
+4. Execution resumes from where it paused — no polling, zero cost while waiting
+
+The workflow can pause here for **minutes, days, or weeks**. Step Functions holds the state for the entire duration. This is something you cannot replicate with a single Lambda or a short-lived service — you'd need a database, a polling mechanism, and a resume handler. `.waitForTaskToken` gives you all of that for free.
+
 ---
 
 ## Quick Reference
